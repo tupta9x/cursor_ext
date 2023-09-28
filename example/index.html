@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Image Saver</title>
+    <style>
+        /* Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .image-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>SVG Image Saver</h1>
+    <p>Click on an image to save it as a base64 string to local storage.</p>
+    <div class="image-container" id="image-container">
+        <!-- Add some SVG images as examples -->
+        <div class="image-card" onclick="saveImageAsBase64(this, 'circle')">
+            <svg width="100" height="100">
+                <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+            </svg>
+        </div>
+        <div class="image-card" onclick="saveImageAsBase64(this, 'rectangle')">
+            <svg width="100" height="100">
+                <rect width="80" height="80" stroke="black" stroke-width="3" fill="blue" />
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        function saveImageAsBase64(element, imageName) {
+            // Get the SVG element as a string
+            const svgString = new XMLSerializer().serializeToString(element.querySelector('svg'));
+
+            // Convert the SVG string to base64
+            const base64Image = btoa(svgString);
+
+            // Create an object to store the SVG with a name
+            const imageObject = { name: imageName, svg: base64Image };
+
+            // Store the image object in local storage
+            localStorage.setItem('savedImage', JSON.stringify(imageObject));
+            
+            alert('Image saved as base64 to local storage with the name: ' + imageName);
+        }
+    </script>
+</body>
+</html>
